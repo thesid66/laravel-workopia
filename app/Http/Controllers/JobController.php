@@ -21,7 +21,40 @@ class JobController extends Controller
      */
     public function index(): View
     {
-        $jobs = Job::paginate(3);
+        $jobs = Job::latest()->paginate(6);
+
+        return view('jobs.index')->with('jobs', $jobs);
+    }
+
+    /**
+     * Display jobs matching the search filters.
+     * Route: GET /jobs/search (name: jobs.search)
+     */
+    public function search(Request $request): View
+    {
+        $keyword = $request->input('keyword');
+        $location = $request->input('location');
+
+        $jobs = Job::query()
+            ->when($keyword, function ($query, $keyword) {
+                $query->where(function ($query) use ($keyword) {
+                    $query->whereRaw('LOWER(title) like ? ', ['%'.$keyword.'%'])
+                        ->orWhereRaw('LOWER(description) like ? ', ['%'.$keyword.'%'])
+                        ->orWhereRaw('LOWER(tags) like ? ', ['%'.$keyword.'%'])
+                        ->orWhereRaw('LOWER(company_name) like ? ', ['%'.$keyword.'%']);
+                });
+            })
+            ->when($location, function ($query, $location) {
+                $query->where(function ($query) use ($location) {
+                    $query->whereRaw('LOWER(city) like ? ', ['%'.$location.'%'])
+                        ->orWhereRaw('LOWER(state) like ? ', ['%'.$location.'%'])
+                        ->orWhereRaw('LOWER(address) like ? ', ['%'.$location.'%'])
+                        ->orWhereRaw('LOWER(zipcode) like ? ', ['%'.$location.'%']);
+                });
+            })
+            ->latest()
+            ->paginate(6)
+            ->withQueryString();
 
         return view('jobs.index')->with('jobs', $jobs);
     }

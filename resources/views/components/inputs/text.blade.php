@@ -1,4 +1,13 @@
-@props(['id', 'name', 'label' => null, 'type' => 'text', 'value' => '', 'placeholder' => '', 'div_class' => ''])
+@props([
+    'id',
+    'name',
+    'label' => null,
+    'type' => 'text',
+    'value' => '',
+    'placeholder' => '',
+    'div_class' => '',
+    'required' => false
+])
 
 <div class="{{ $div_class }}">
 	@if ($label)
@@ -13,6 +22,7 @@
 		id="{{ $id }}"
 		value="{{ old($name, $value) }}"
 		placeholder="{{ $placeholder }}"
+		{{ $required ? 'required' : '' }}
 		@class([
 			'w-full rounded-md border px-3 py-2 text-slate-800 focus:outline-none focus:ring-1',
 			'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has(

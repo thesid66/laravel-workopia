@@ -1,4 +1,4 @@
-@props(['id', 'name', 'label' => null, 'value' => '', 'placeholder' => '', 'rows'])
+@props(['id', 'name', 'label' => null, 'value' => '', 'placeholder' => '', 'rows', 'required' => false])
 
 <div class="md:col-span-2">
 	@if ($label)
@@ -12,6 +12,7 @@
 	 id="{{ $id }}"
 	 rows="{{ $rows }}"
 	 placeholder="{{ $placeholder }}"
+	 {{ $required ? 'required' : '' }}
 	 @class([
 		'w-full rounded-md border px-3 py-2 text-slate-800 focus:outline-none focus:ring-1',
 		'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has(

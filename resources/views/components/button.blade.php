@@ -45,7 +45,7 @@
 @else
 	<button
 		type="{{ $type }}"
-		{{ $attributes->merge(['class' => $baseClass . ' ' . $variantClass . ' ' . $sizeClass]) }}
+		{{ $attributes->merge(['class' => $baseClass . ' ' . $variantClass . ' ' . $sizeClass . ' ' . $rounded]) }}
 	>
 		@if ($icon)
 			<i class="{{ $icon }}"></i>

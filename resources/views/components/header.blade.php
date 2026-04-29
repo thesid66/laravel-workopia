@@ -188,6 +188,14 @@
 							</button>
 
 							<a
+								href="{{ url('/bookmarks') }}"
+								class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-white"
+							>
+								<i class="fa-regular fa-file-lines w-4 text-center"></i>
+								<span>Saved Jobs</span>
+							</a>
+
+							<a
 								href="{{ url('/applications') }}"
 								class="flex items-center gap-3 px-4 py-3 text-sm text-slate-300 hover:bg-slate-800 hover:text-white"
 							>
@@ -301,6 +309,13 @@
 					>
 						Post a Job
 					</x-button>
+					<x-button
+						href="{{ route('applications.index') }}"
+						variant="outline"
+						class="w-full"
+					>
+						Applications
+					</x-button>
 					<x-logout-button :mobile="true" />
 				@endauth
 			</div>
@@ -311,6 +326,7 @@
 		@auth
 			<div
 				x-show="profileModal"
+				x-scroll-lock="profileModal"
 				x-cloak
 				x-transition.opacity
 				class="z-100 fixed inset-0 flex items-center justify-center bg-slate-950/70 p-4"

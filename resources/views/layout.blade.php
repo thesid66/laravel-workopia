@@ -18,13 +18,14 @@
 		crossorigin="anonymous"
 		referrerpolicy="no-referrer"
 	/>
-	@vite('resources/css/app.css')
+	@vite(['resources/css/app.css', 'resources/js/app.js'])
 	<style>
 		[x-cloak] {
 			display: none !important;
 		}
 	</style>
 	<title>{{ $title ?? 'Workopia | Find and list jobs' }}</title>
+	@stack('styles')
 
 </head>
 
@@ -50,10 +51,6 @@
 		@endif
 		{{ $slot }}
 	</main>
+	@stack('scripts')
 </body>
-<script
-	defer
-	src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-></script>
-
 </html>

@@ -1,4 +1,13 @@
-@props(['id', 'name', 'label' => null, 'value' => '', 'placeholder' => '', 'div_class' => ''])
+@props([
+    'id',
+    'name',
+    'label' => null,
+    'value' => '',
+    'placeholder' => '',
+    'div_class' => '',
+    'required' => false,
+    'accept' => null,
+])
 
 <div class="{{ $div_class }}">
 	@if ($label)
@@ -11,7 +20,8 @@
 		type="file"
 		name="{{ $name }}"
 		id="{{ $id }}"
-		accept="image/*"
+		{{ $required ? 'required' : '' }}
+		@if ($accept) accept="{{ $accept }}" @endif
 		@class([
 			'w-full rounded-md border px-3 py-2 text-slate-800 file:mr-3 file:rounded-md file:border-0 file:bg-slate-100 file:px-3 file:py-2 file:text-sm file:font-medium file:text-slate-700 hover:file:bg-slate-200 focus:outline-none focus:ring-1',
 			'border-red-500 focus:border-red-500 focus:ring-red-500' => $errors->has(

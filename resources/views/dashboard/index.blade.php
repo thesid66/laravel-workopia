@@ -1,7 +1,6 @@
 <x-layout>
 	@php
 		$postedJobsCount = $jobs->count();
-		$totalApplicantsCount = 0;
 	@endphp
 
 	<div
@@ -110,6 +109,17 @@
 										Posted {{ $job->created_at->format('M d, Y') }}
 									</span>
 								</div>
+								<div class="flex">
+									<p class="item-start mt-2 rounded-full bg-slate-500 px-3 py-0.5 text-xs text-slate-100">
+										@if ($job->applicants_count > 0)
+											{{ $job->applicants_count }}
+											applicant{{ $job->applicants_count > 1 ? 's' : '' }} so
+											far.
+										@else
+											No application has been submitted yet
+										@endif
+									</p>
+								</div>
 							</div>
 
 							<div class="flex flex-wrap items-center gap-2 md:justify-end">
@@ -152,6 +162,7 @@
 
 		<div
 			x-show="confirmDelete"
+			x-scroll-lock="confirmDelete"
 			x-cloak
 			x-transition.opacity
 			class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4"

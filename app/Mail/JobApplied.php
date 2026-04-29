@@ -1,0 +1,68 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Storage;
+
+class JobApplied extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public $application;
+
+    public $job;
+
+    /**
+     * Create a new message instance.
+     */
+    public function __construct($application, $job)
+    {
+        $this->application = $application;
+        $this->job = $job;
+    }
+
+    /**
+     * Get the message envelope.
+     */
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            subject: 'New Job Application',
+        );
+    }
+
+    /**
+     * Get the message content definition.
+     */
+    public function content(): Content
+    {
+        return new Content(
+            view: 'emails.job-applied',
+        );
+    }
+
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, Attachment>
+     */
+    public function attachments(): array
+    {
+        $attachments = [];
+
+        if ($this->application->resume_path) {
+            $resumePath = str_replace('/storage/', '', $this->application->resume_path);
+
+            $attachments[] = Attachment::fromPath(Storage::disk('public')->path($resumePath))
+                ->as(basename($resumePath));
+        }
+
+        return $attachments;
+    }
+}
